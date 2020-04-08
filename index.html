@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vip中心</title>
+    <script>
+        window.onload = function(){
+            getRem(750,100)
+        };
+        window.onresize = function(){
+            getRem(750,100)
+        };
+        function getRem(pwidth,prem){
+            let html = document.getElementsByTagName("html")[0];
+            let oWidth = document.body.clientWidth || document.documentElement.clientWidth;
+            html.style.fontSize = oWidth/pwidth*prem + "px";
+        }
+    </script>
+    <style>
+        *{margin:0;padding: 0;}
+        li{list-style: none}
+        /*nav*/
+        nav{margin-top:0.3rem;}
+        nav ul{display: flex; justify-content:space-around}
+        nav ul li{width:3rem;height:1.4rem;background:#f3f3f3 ;border:1px solid #666;text-align: center;padding-top:0.6rem;}
+        nav ul li .title{font-size:0.3rem;line-height:0.32rem;}
+        nav ul li .deco{font-size:0.2rem;line-height:0.24rem;color:#999;}
+    /*    分割*/
+        .border{width:100%;height:0.16rem;background:#f3f3f3;margin:0.1rem 0 0.3rem 0 ;}
+        .marginTop{margin-top:0.2rem;}
+        /*content*/
+        .content .title{font-size:0.3rem;padding-left:0.36rem;line-height:0.3rem;}
+        .content .title span{font-size:0.2rem;margin-left:0.2rem;line-height:0.2rem;color:#999;}
+        .content .title i{color:orangered;font-style:normal}
+        .content ul{margin-top:0.3rem;overflow: hidden}
+        .content ul li{width:1rem;float:left;margin-left:0.44rem;}
+        .content ul li:nth-of-type(5n+1){margin-left:0.32rem;}
+        .content ul li .img{width:1rem;line-height:1rem;background:rgba(255,0,0,0.2);border-radius: 50%;font-size:0.4rem;text-align: center}
+        .content ul li .deco{font-size:0.3rem;line-height:0.3rem;margin:0.1rem 0 0.3rem 0;text-align: center;width:1rem;}
+    /*    vip区别*/
+        .difference .title{font-size:0.34rem;padding-left:0.38rem;line-height:0.34rem;color:#777;margin-bottom:0.3rem;}
+        .difference ul{width:90%;margin:0 auto;background:#f3f3f3;overflow: hidden}
+        .difference ul li{float:left;font-size:0.3rem;line-height:0.9rem;width:1rem;text-align: center;color:#ccc;}
+        .difference ul li:first-of-type{width:1.6rem;}
+        .difference .demo{background: #fff;}
+        .difference .demo li:first-child{background: #f3f3f3;}
+    /*    动态绑定*/
+        nav .active{background:rgba(255,0,0,0.3) ;border:1px solid orangered;}
+        nav .active .title{color:orangered}
+        nav .active .deco{color:coral}
+        .opacity{opacity: 0.5}
+    /*    弹窗*/
+        .alert{width:100%;height:100%;background:rgba(0,0,0,0.5);position: fixed;top:0;left:0;}
+        .popup{width:80%;height:5rem;background:#fff;border-radius: 0.1rem;padding:0.2rem 0 0 0.3rem ;position: absolute;top:50%;left:50%;margin:-2.5rem 0 0 -3.2rem;}
+        h2{font-size:0.5rem;line-height:0.5rem;}
+        .popup p{font-size:0.3rem;line-height:0.4rem;margin-top:0.3rem;width:90%;}
+        #cancel{font-size:0.4rem;width:0.5rem;line-height:0.5rem;text-align: center;color:#fff;position: absolute;bottom:3rem;left:50%;margin-left:-0.2rem;cursor: pointer;border:1px solid #fff;border-radius: 50%;}
+    </style>
+</head>
+<body>
+    <nav>
+        <ul id="navUl">
+            <li class="active">
+                <div class="title">高级版</div>
+                <div class="deco">适合独立摄影师</div>
+            </li>
+            <li>
+                <div class="title">定制版</div>
+                <div class="deco">适合小型工作室</div>
+            </li>
+        </ul>
+    </nav>
+    <div class="border"></div>
+<!--    高级版-->
+    <div class="content">
+        <div class="title" id="contentTitle">高级版<span>(适合<i>独立摄影师</i>)</span></div>
+        <ul id="contentUl">
+        </ul>
+    </div>
+<!--分割线-->
+    <div class="border marginTop"></div>
+<!--vip区别-->
+    <div class="difference">
+        <div class="title">VIP区别</div>
+        <ul class="category">
+            <li>尺码</li>
+            <li>S</li>
+            <li>M</li>
+            <li>L</li>
+        </ul>
+        <ul class="demo">
+            <li>肩宽</li>
+            <li>64</li>
+            <li>65</li>
+            <li>66</li>
+        </ul>
+    </div>
+<!--弹窗-->
+    <div class="alert" id="alert" style="display: none">
+        <div class="popup">
+            <h2>标题1</h2>
+            <p id="alertContent">正文部分正文部分正文部分正文部分正文部分正文部分正文部分正文部分正文部分正文部分正文部分正文部分正文部分正文部分正文部分正文部分正文部分正文部分</p>
+        </div>
+        <div id="cancel" >x</div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+    let contentArr = ['标题1','标题2','标题3','标题4','标题5','标题6','标题7','标题8','标题9','标题10'] ;
+    //循环遍历
+    let firstContent = [] ;
+    let sencondContent = [] ;
+    //tag判断当前显示高级版还是定制版
+    let tag = true ;
+    contentArr.map( value => {
+        firstContent.push(`<li>
+                 <div class="img">A</div>
+                <div class="deco">${value}</div>
+        </li>`) ;
+        sencondContent.push(`<li>
+                 <div class="img">B</div>
+                <div class="deco">${value}</div>
+        </li>`) ;
+        $('#contentUl').append(
+            `<li>
+                 <div class="img">A</div>
+                <div class="deco">${value}</div>
+        </li>`
+        )  ;
+    }) ;
+    //显示1，3，4，8，10
+    $('#contentUl li').map( (index,value) => {
+        if(index === 0 || index === 2 || index === 3 || index === 7 || index === 9){
+            return ;
+        }else{
+            $(value).addClass('opacity') ;
+        }
+    }) ;
+    //nav切换
+    $('#navUl li').click( function () {
+        let index = $(this).index() ;
+        $(this).addClass('active').siblings().removeClass('active') ;
+        $('#contentUl').empty() ;
+        if(index === 0){
+            firstContent.map( (value,index) => {
+                $('#contentUl').append(value) ;
+                if(index === 0 || index === 2 || index === 3 || index === 7 || index === 9){
+                    return ;
+                }else{
+                    $('#contentUl li').eq(index).addClass('opacity') ;
+                }
+            }) ;
+            $('#contentTitle').html(`
+                高级版<span>(适合<i>独立摄影师</i>)</span>
+            `)
+        }else{
+            sencondContent.map(( value => {
+                $('#contentUl').append(value)
+            })) ;
+            $('#contentTitle').html(`
+                定制版<span>(适合<i>小型工作室</i>)</span>
+            `)
+        }
+    }) ;
+    //关闭弹窗
+    $('#cancel').click( function () {
+        $('#alert').hide() ;
+    }) ;
+    //点击内容显示弹窗
+    $('#contentUl li').click( function () {
+        let num = '#'+Math.floor(Math.random()*256).toString(10);
+        $('#alert').show() ;
+        let html = $(this).children('.deco').html();
+        $('h2').html(html) ;
+        //随机颜色
+        $('#alertContent').css('color',num) ;
+    }) ;
+    //获取页面路径
+    let myUrl = window.location.search ;
+    let key_value = myUrl.split('?')[1].split('&') ;
+    console.log(key_value[0].split('=')[1]);
+    if(key_value[0].split('=')[1] === '1'){
+        $('#navUl li').eq(1).addClass('active').siblings().removeClass('active') ;
+        $('#contentUl').empty() ;
+        sencondContent.map(( value => {
+            $('#contentUl').append(value)
+        })) ;
+        $('#contentTitle').html(`
+                定制版<span>(适合<i>小型工作室</i>)</span>
+            `)
+    }
+</script>
+</html>
